@@ -16,7 +16,7 @@ const ProductListScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   return (
-    <View>
+    <View style={{backgroundColor: 'white'}}>
       {loading ? <ActivityIndicator /> : <ProductList products={products} onProductPress={handleProductPress} />}
     </View>
   );

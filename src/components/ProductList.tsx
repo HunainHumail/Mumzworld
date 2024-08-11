@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     height: screenHeight, // Set a fixed height as suggested
     width: screenWidth, // Use screen width
     padding: 16,
+    // backgroundColor: 'grey'
   },
 });
 
