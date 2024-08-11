@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Product, ProductDetails } from '../types';
 
 export const fetchProductList = async (): Promise<Product[]> => {
-  const response = await axios.get('https://storage.googleapis.com/mumzrn/product-list-lite');
+  const response = await axios.get('https://storage.googleapis.com/mumzrn/product-list-large');
   return response.data.data.products.items as Product[];  // Adjusting the path to fetch products
 };
 

@@ -8,8 +8,6 @@ const useProductListViewModel = () => {
   const products = useSelector((state: RootState) => state.products.products);
   const loading = useSelector((state: RootState) => state.products.loading);
 
-  console.log('PRODUCTS HERE :', products)
-
   useEffect(() => {
     dispatch(fetchProductsRequest());
   }, [dispatch]);
