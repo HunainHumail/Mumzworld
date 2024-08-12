@@ -24,8 +24,12 @@ const ProductList: React.FC<Props> = ({ products, onProductPress }) => {
         renderItem={renderItem}
         // estimatedItemSize={screenHeight}
         numColumns={2}
+        removeClippedSubviews={true} // Optimizes memory usage
+        initialNumToRender={10} // Adjust based on your needs
+        maxToRenderPerBatch={10} // Number of items rendered per batch
+        windowSize={21} // Number of items to keep in memory (initialNumToRender + maxToRenderPerBatch)
         keyExtractor={(item) => item.id.toString()}
-        columnWrapperStyle={{ justifyContent: 'space-between' }}
+        columnWrapperStyle={{ justifyContent: 'space-between', padding: 10 }}
       />
     </View>
   );
@@ -34,9 +38,9 @@ const ProductList: React.FC<Props> = ({ products, onProductPress }) => {
 const styles = StyleSheet.create({
   container: {
     height: screenHeight, // Set a fixed height as suggested
-    width: screenWidth, // Use screen width
-    padding: 16,
-    // backgroundColor: 'grey'
+    // width: screenWidth, // Use screen width
+    padding: 10,
+    backgroundColor: '#fef1f1'
   },
 });
 
