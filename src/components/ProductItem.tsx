@@ -1,17 +1,15 @@
 import React, { useState, useRef } from 'react';
-import { Image, Text, TouchableOpacity, View, StyleSheet, Dimensions, Animated } from 'react-native';
+import { Image, Text, TouchableOpacity, View, StyleSheet, Animated } from 'react-native';
 import { Product } from '../types';
 import Fonts from '../utils/Fonts';
 import { HeartOutlined, HeartFilled } from '../utils/svgs';
 import { moderateScale, verticalScale } from 'react-native-size-matters';
-import { screenWidth } from '../utils/constants';
 import FastImage from 'react-native-fast-image';
 
 interface Props {
   product: Product;
   onPress: () => void;
 }
-
 
 const ProductItem: React.FC<Props> = ({ product, onPress }) => {
   const [isFavorite, setIsFavorite] = useState(false);
@@ -84,6 +82,10 @@ const ProductItem: React.FC<Props> = ({ product, onPress }) => {
 
   return (
     <TouchableOpacity onPress={onPress} style={[styles.itemContainer]}>
+      {product.price_range.minimum_price.discount?.percent_off ?
+        <View style={styles.bannerContainer}>
+          <Text style={styles.bannerText}>- {product.price_range.minimum_price.discount?.percent_off.toFixed(0)}%</Text>
+        </View> : null}
       <TouchableOpacity style={styles.heartButton} onPress={toggleFavorite}>
         <Animated.View style={{ transform: [{ scale: scaleValue }] }}>
           {isFavorite ? <HeartFilled /> : <HeartOutlined />}
@@ -110,8 +112,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     borderRadius: 8,
     backgroundColor: 'white',
-    // paddingHorizontal: 8,
-    height: verticalScale(140),
+    height: verticalScale(150),
     width: '47%',
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
@@ -119,6 +120,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
     justifyContent: 'space-between',
+    overflow: 'hidden', // Ensure the banner stays within the card
   },
   image: {
     height: verticalScale(90),
@@ -128,7 +130,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 14,
     fontFamily: Fonts.type.medium,
-    color: 'black'
+    color: 'black',
   },
   price: {
     fontSize: 12,
@@ -156,8 +158,28 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     backgroundColor: '#dfebfc',
     paddingVertical: 8,
-    borderRadius: 8
-  }
+    borderRadius: 8,
+  },
+  bannerContainer: {
+    position: 'absolute',
+    top: 10,
+    left: -30,
+    width: '60%',
+    backgroundColor: '#ff3b30',
+    paddingHorizontal: 10,
+    paddingVertical: 1,
+    borderBottomRightRadius: 8,
+    borderTopLeftRadius: 8,
+    transform: [{ rotate: '-45deg' }], // Rotate to create the cross shape
+    zIndex: 1,
+  },
+  bannerText: {
+    color: 'white',
+    fontFamily: Fonts.type.semibold,
+    fontSize: 12,
+    textAlign: 'center',
+    transform: [{ rotate: '0deg' }], // Rotate text to be horizontal
+  },
 });
 
 export default ProductItem;
