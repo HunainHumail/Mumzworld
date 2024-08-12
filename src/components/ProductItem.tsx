@@ -97,7 +97,7 @@ const ProductItem: React.FC<Props> = ({ product, onPress }) => {
       <View style={styles.productDetailView}>
         <Text numberOfLines={2} style={styles.name}>{product.name}</Text>
         <Text style={styles.price}>
-          {product.price.regularPrice.amount.value} {product.price.regularPrice.amount.currency}
+          {product.price.regularPrice.amount.value.toFixed(2)} {product.price.regularPrice.amount.currency}
         </Text>
       </View>
     </TouchableOpacity>
