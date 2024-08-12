@@ -5,6 +5,7 @@ import Fonts from '../utils/Fonts';
 import { HeartOutlined, HeartFilled } from '../utils/svgs';
 import { moderateScale, verticalScale } from 'react-native-size-matters';
 import { screenWidth } from '../utils/constants';
+import FastImage from 'react-native-fast-image';
 
 interface Props {
   product: Product;
@@ -89,7 +90,7 @@ const ProductItem: React.FC<Props> = ({ product, onPress }) => {
         </Animated.View>
         {isFavorite && renderSparkles()}
       </TouchableOpacity>
-      <Image
+      <FastImage
         source={{ uri: product.small_image.url }}
         style={styles.image}
         resizeMode="contain"
@@ -110,7 +111,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: 'white',
     // paddingHorizontal: 8,
-    paddingBottom: 8,
     height: verticalScale(140),
     width: '47%',
     shadowColor: 'black',
@@ -121,18 +121,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   image: {
-    height: 100,
+    height: verticalScale(90),
     width: '100%',
     borderRadius: 8,
   },
   name: {
     fontSize: 14,
-    fontFamily: Fonts.type.bold,
+    fontFamily: Fonts.type.medium,
+    color: 'black'
   },
   price: {
     fontSize: 12,
     color: '#888',
-    fontFamily: Fonts.type.medium,
+    fontFamily: Fonts.type.bold,
   },
   heartButton: {
     position: 'absolute',
@@ -152,7 +153,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFD700', // Gold color for sparkles
   },
   productDetailView: {
-    paddingHorizontal: 8
+    paddingHorizontal: 8,
+    backgroundColor: '#dfebfc',
+    paddingVertical: 8,
+    borderRadius: 8
   }
 });
 
