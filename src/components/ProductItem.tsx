@@ -176,7 +176,7 @@ const ProductItem: React.FC<Props> = ({ product, onPress }) => {
 const styles = StyleSheet.create({
   itemContainer: {
     marginVertical: 8,
-    borderRadius: 8,
+    borderRadius: 20,
     backgroundColor: 'white',
     width: '45%',
     // overflow: 'hidden', // Ensures circle doesn't go outside the item
