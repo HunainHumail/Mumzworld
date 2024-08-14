@@ -13,7 +13,8 @@ const ProductListScreen: React.FC<Props> = ({ navigation }) => {
   const { products, loading } = useProductListViewModel();
 
   const handleProductPress = (productId: string) => {
-    navigation.navigate('ProductDetails', { productId });
+    console.log('PRODUT ID: ', productId)
+    // navigation.navigate('ProductDetails', { productId });
   };
 
   return (

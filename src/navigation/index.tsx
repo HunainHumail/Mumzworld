@@ -5,10 +5,12 @@ import { Text } from 'react-native';
 import ProductListScreen from '../views/ProductListScreen';
 import ProductDetailsScreen from '../views/ProductDetailScreen';
 import { Logo } from '../utils/svgs';
+import NavigationService from '../utils/NavigationService';
+import { ProductDetails } from '../types';
 
 export type RootStackParamList = {
   ProductList: undefined;
-  ProductDetails: { productId: string };
+  ProductDetails: ProductDetails[];
 };
 
 export type ProductListScreenNavigationProp = StackNavigationProp<
@@ -20,7 +22,7 @@ const Stack = createStackNavigator<RootStackParamList>();
 
 const AppNavigator: React.FC = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={NavigationService.navigationRef}>
       <Stack.Navigator>
         <Stack.Screen 
           name="ProductList" 

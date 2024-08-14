@@ -9,7 +9,7 @@ const useProductDetailsViewModel = (productId: string) => {
   const loading = useSelector((state: RootState) => state.products.loading);
 
   useEffect(() => {
-    dispatch(fetchProductDetailsRequest(productId));
+    dispatch(fetchProductDetailsRequest(parseInt(productId)));
   }, [dispatch, productId]);
 
   return {

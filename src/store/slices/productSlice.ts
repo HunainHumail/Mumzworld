@@ -4,8 +4,10 @@ import { ProductState, Product } from '../../types';
 const initialState: ProductState = {
   products: [],
   productDetails: undefined,
-  loading: false,
+  loading:  false,
+  productLoading: {},
   error: undefined,
+  selectedProduct: null,
 };
 
 const productSlice = createSlice({
@@ -16,23 +18,23 @@ const productSlice = createSlice({
       state.loading = true;
     },
     fetchProductsSuccess(state, action: PayloadAction<Product[]>) {
-      state.loading = false;
       state.products = action.payload;
+      state.loading = false;
     },
     fetchProductsFailure(state, action: PayloadAction<string>) {
-      state.loading = false;
       state.error = action.payload;
-    },
-    fetchProductDetailsRequest(state) {
       state.loading = true;
     },
-    fetchProductDetailsSuccess(state, action: PayloadAction<Product>) {
-      state.loading = false;
-      state.productDetails = action.payload;
+    fetchProductDetailsRequest(state, action: PayloadAction<number>) {
+      state.productLoading[action.payload] = true; // Set loading for the specific product ID
     },
-    fetchProductDetailsFailure(state, action: PayloadAction<string>) {
-      state.loading = false;
-      state.error = action.payload;
+    fetchProductDetailsSuccess(state, action: PayloadAction<Product>) {
+      state.selectedProduct = action.payload;
+      state.productLoading[action.payload[0].id] = false; // Clear loading for the specific product ID
+    },
+    fetchProductDetailsFailure(state, action: PayloadAction<{ id: number; error: string }>) {
+      state.error = action.payload.error;
+      state.productLoading[action.payload.id] = false; // Clear loading for the specific product ID
     },
   },
 });

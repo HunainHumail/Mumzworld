@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Image, Text, TouchableOpacity, View, StyleSheet, Animated } from 'react-native';
+import { Image, Text, TouchableOpacity, View, StyleSheet, Animated, ActivityIndicator } from 'react-native';
 import { Product } from '../types';
 import Fonts from '../utils/Fonts';
 import { HeartOutlined, HeartFilled, ShoppingCartOutlined, ShoppingCartFilled } from '../utils/svgs';
@@ -7,6 +7,9 @@ import { moderateScale, verticalScale } from 'react-native-size-matters';
 import FastImage from 'react-native-fast-image';
 import DiscountComponent from './DiscountComponent';
 import Tag from './Tag';
+import { RootState } from '../store/slices';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProductDetailsRequest } from '../store/slices/productSlice';
 
 interface Props {
   product: Product;
@@ -14,12 +17,16 @@ interface Props {
 }
 
 const ProductItem: React.FC<Props> = ({ product, onPress }) => {
+  const dispatch = useDispatch();
   const [isFavorite, setIsFavorite] = useState(false);
   const [inCart, setInCart] = useState(false);
   const scaleValue = useRef(new Animated.Value(1)).current;
   const cartScaleValue = useRef(new Animated.Value(1)).current;
   const sparkles = useRef([...Array(5)].map(() => new Animated.Value(0))).current;
   const circleScale = useRef(new Animated.Value(0)).current;
+  const isLoading = useSelector((state: RootState) => state.products.productLoading[product.id]);
+
+
 
   const toggleFavorite = () => {
     const newValue = !isFavorite;
@@ -120,10 +127,15 @@ const ProductItem: React.FC<Props> = ({ product, onPress }) => {
     }).start();
   };
 
+  const handlePress = () => {
+    console.log('HADNLE PRESS:')
+    dispatch(fetchProductDetailsRequest(product.id));
+  };
+  
   return (
     <TouchableOpacity 
       activeOpacity={1}
-      onPress={onPress} 
+      onPress={handlePress} 
       onPressIn={handlePressIn} 
       onPressOut={handlePressOut} 
       style={[styles.itemContainer]}
@@ -169,6 +181,11 @@ const ProductItem: React.FC<Props> = ({ product, onPress }) => {
           {inCart ? <ShoppingCartFilled /> : <ShoppingCartOutlined />}
         </Animated.View>
       </TouchableOpacity>
+      {isLoading && (
+        <View style={styles.overlay}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
+      )}
     </TouchableOpacity>
   );
 };
@@ -274,7 +291,17 @@ const styles = StyleSheet.create({
   space: {
     height: 15,
     width: 15
-  }
+  },
+  overlay: {
+    position: 'absolute', // Absolute positioning
+    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Semi-transparent background
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    justifyContent: 'center', // Center vertically
+    alignItems: 'center', // Center horizontally
+  },
 });
 
 export default ProductItem;

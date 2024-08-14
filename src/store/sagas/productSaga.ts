@@ -8,6 +8,7 @@ import {
   fetchProductDetailsSuccess,
   fetchProductDetailsFailure,
 } from '../slices/productSlice';
+import NavigationService from '../../utils/NavigationService';
 
 // Define types for the expected return values from API calls
 type Product = any; // Replace with your actual Product type
@@ -28,11 +29,13 @@ function* handleFetchProductDetails(
   action: ReturnType<typeof fetchProductDetailsRequest>
 ): Generator<CallEffect<FetchProductDetailsResponse> | PutEffect<any>, void, FetchProductDetailsResponse> {
   try {
-    // Assuming fetchProductDetails returns a Promise<Product>
+    console.log('HERE NOW: ')
     const productDetails: FetchProductDetailsResponse = yield call(fetchProductDetails, action.payload) as FetchProductDetailsResponse;
     yield put(fetchProductDetailsSuccess(productDetails));
+    console.log('PRODUCT DETAILS HERE: ', productDetails)
+    NavigationService.navigate('ProductDetails', productDetails)
   } catch (error: any) {
-    yield put(fetchProductDetailsFailure(error.message));
+    yield put(fetchProductDetailsFailure({ id: action.payload, error: error.message }));
   }
 }
 
