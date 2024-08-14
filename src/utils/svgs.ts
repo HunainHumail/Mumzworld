@@ -9,6 +9,7 @@ import MumzChoiceTag from '../assets/svgs/tag-mumz-choice.svg'
 import SearchIcon from '../assets/svgs/search.svg'
 import SortIcon from '../assets/svgs/sort.svg'
 import CloseIcon from '../assets/svgs/close_fill.svg'
+import BackIcon from '../assets/svgs/back-icon.svg'
 
 export {
     HeartOutlined,
@@ -20,5 +21,6 @@ export {
     MumzChoiceTag,
     SearchIcon,
     SortIcon,
-    CloseIcon
+    CloseIcon,
+    BackIcon
 }

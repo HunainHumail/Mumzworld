@@ -42,12 +42,7 @@ const AppNavigator: React.FC = () => {
           name="ProductDetails" 
           component={ProductDetailsScreen} 
           options={{
-            headerStyle: {
-              backgroundColor: '#fef1f1', // Set the background color of the header
-            },
-            headerTitle: () => (
-              <Text style={{ color: '#333333', fontSize: 18 }}>Product Details</Text>
-            ),
+            headerShown: false,
           }}
         />
       </Stack.Navigator>
