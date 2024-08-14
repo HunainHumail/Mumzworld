@@ -23,6 +23,7 @@ const ProductItem: React.FC<Props> = ({ product }) => {
   const [inCart, setInCart] = useState(false);
   const circleScale = useRef(new Animated.Value(0)).current;
   const isLoading = useSelector((state: RootState) => state.products.productLoading[product.id]);
+  const discount = product.price_range.minimum_price.discount?.percent_off ? true : false
 
 
   const handlePressIn = () => {
@@ -45,9 +46,6 @@ const ProductItem: React.FC<Props> = ({ product }) => {
     dispatch(fetchProductDetailsRequest(product.id));
   };
 
-  console.log('PRODUCT PRICE: ',  product.price_range.minimum_price.final_price.value.toFixed(2))
-
-  const discount = product.price_range.minimum_price.discount?.percent_off ? true : false
   
   return (
     <TouchableOpacity 
