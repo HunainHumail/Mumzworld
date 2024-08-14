@@ -39,6 +39,13 @@ Before you begin, ensure you have met the following requirements:
     cd ..
     ```
 
+## Project UI GIF:
+![Alt Text](https://github.com/HunainHumail/Mumzworld/tree/main/readme-gif/product-list.gif)
+
+
+![Alt Text](https://github.com/HunainHumail/Mumzworld/tree/main/readme-gif/product-detail.gif)
+
+
 
 ## Project Structure
 
