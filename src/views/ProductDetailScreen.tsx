@@ -38,10 +38,8 @@ const ProductDetailsScreen: React.FC<Props> = ({ route }) => {
 
   const customIframeRenderer = ({ tnode }) => {
     const { width: screenWidth } = useWindowDimensions();
-    // Safely extract the attributes from tnode
     const attributes = tnode?.init?.domNode?.attribs || {};
     
-    // Extract src and height from attributes
     const { src, height = '200' } = attributes;
     
     if (!src) return null;
@@ -135,7 +133,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: moderateScale(16),
   },
   rtlText: {
-    textAlign: 'right', // Align text to the right for RTL
+    textAlign: 'right', 
   },
   productPrice: {
     fontFamily: Fonts.type.bold,
@@ -150,7 +148,7 @@ const styles = StyleSheet.create({
     // Additional styles for the back icon if needed
   },
   flipIcon: {
-    transform: [{ scaleX: -1 }], // Flip the icon horizontally
+    transform: [{ scaleX: -1 }],
   },
   priceView: {
     flexDirection: 'row',
