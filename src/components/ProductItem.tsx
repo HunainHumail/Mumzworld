@@ -15,10 +15,9 @@ import AnimatedCartButton from './AnimatedCartButton';
 
 interface Props {
   product: Product;
-  onPress: () => void;
 }
 
-const ProductItem: React.FC<Props> = ({ product, onPress }) => {
+const ProductItem: React.FC<Props> = ({ product }) => {
   const dispatch = useDispatch();
   const [isFavorite, setIsFavorite] = useState(false);
   const [inCart, setInCart] = useState(false);

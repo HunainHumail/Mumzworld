@@ -11,10 +11,9 @@ import { SortIcon } from '../utils/svgs';
 
 interface Props {
   products: Product[];
-  onProductPress: (productId: string) => void;
 }
 
-const ProductList: React.FC<Props> = ({ products, onProductPress }) => {
+const ProductList: React.FC<Props> = ({ products }) => {
   const [searchQuery, setSearchQuery] = useState('');
 
   // Memoize filtered products to avoid unnecessary re-renders
@@ -25,7 +24,7 @@ const ProductList: React.FC<Props> = ({ products, onProductPress }) => {
   }, [products, searchQuery]);
 
   const renderItem = ({ item }: { item: Product }) => (
-    <ProductItem product={item} onPress={() => onProductPress(item.id.toString())} />
+    <ProductItem product={item} />
   );
 
   return (
