@@ -14,7 +14,6 @@ const ProductListScreen: React.FC<Props> = ({ navigation }) => {
 
   const handleProductPress = (productId: string) => {
     console.log('PRODUT ID: ', productId)
-    // navigation.navigate('ProductDetails', { productId });
   };
 
   return (

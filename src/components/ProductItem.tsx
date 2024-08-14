@@ -10,6 +10,8 @@ import Tag from './Tag';
 import { RootState } from '../store/slices';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductDetailsRequest } from '../store/slices/productSlice';
+import AnimatedHeart from './AnimatedHeart';
+import AnimatedCartButton from './AnimatedCartButton';
 
 interface Props {
   product: Product;
@@ -20,96 +22,9 @@ const ProductItem: React.FC<Props> = ({ product, onPress }) => {
   const dispatch = useDispatch();
   const [isFavorite, setIsFavorite] = useState(false);
   const [inCart, setInCart] = useState(false);
-  const scaleValue = useRef(new Animated.Value(1)).current;
-  const cartScaleValue = useRef(new Animated.Value(1)).current;
-  const sparkles = useRef([...Array(5)].map(() => new Animated.Value(0))).current;
   const circleScale = useRef(new Animated.Value(0)).current;
   const isLoading = useSelector((state: RootState) => state.products.productLoading[product.id]);
 
-
-
-  const toggleFavorite = () => {
-    const newValue = !isFavorite;
-    setIsFavorite(newValue);
-
-    // Start the animation for the heart
-    Animated.sequence([
-      Animated.timing(scaleValue, {
-        toValue: 1.5,
-        duration: 200,
-        useNativeDriver: true,
-      }),
-      Animated.timing(scaleValue, {
-        toValue: 1,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-    ]).start();
-
-    // Trigger sparkle effect if liked
-    if (newValue) {
-      sparkles.forEach((sparkle, index) => {
-        Animated.timing(sparkle, {
-          toValue: 1,
-          duration: 300,
-          useNativeDriver: true,
-          delay: index * 50,
-        }).start(() => {
-          Animated.timing(sparkle, {
-            toValue: 0,
-            duration: 200,
-            useNativeDriver: true,
-          }).start();
-        });
-      });
-    }
-  };
-
-  const toggleCart = () => {
-    const newValue = !inCart;
-    setInCart(newValue);
-
-    // Start the animation for the cart icon
-    Animated.sequence([
-      Animated.timing(cartScaleValue, {
-        toValue: 1.3,
-        duration: 200,
-        useNativeDriver: true,
-      }),
-      Animated.timing(cartScaleValue, {
-        toValue: 1,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-    ]).start();
-  };
-
-  const renderSparkles = () => {
-    return sparkles.map((sparkle, index) => {
-      const angle = (index * 2 * Math.PI) / sparkles.length;
-      const translateX = sparkle.interpolate({
-        inputRange: [0, 1],
-        outputRange: [0, Math.cos(angle) * 20], // Adjust 20 to control distance
-      });
-      const translateY = sparkle.interpolate({
-        inputRange: [0, 1],
-        outputRange: [0, Math.sin(angle) * 20],
-      });
-
-      return (
-        <Animated.View
-          key={index}
-          style={[
-            styles.sparkle,
-            {
-              transform: [{ translateX }, { translateY }],
-              opacity: sparkle, // Fade out sparkles
-            },
-          ]}
-        />
-      );
-    });
-  };
 
   const handlePressIn = () => {
     Animated.timing(circleScale, {
@@ -128,9 +43,12 @@ const ProductItem: React.FC<Props> = ({ product, onPress }) => {
   };
 
   const handlePress = () => {
-    console.log('HADNLE PRESS:')
     dispatch(fetchProductDetailsRequest(product.id));
   };
+
+  console.log('PRODUCT PRICE: ',  product.price_range.minimum_price.final_price.value.toFixed(2))
+
+  const discount = product.price_range.minimum_price.discount?.percent_off ? true : false
   
   return (
     <TouchableOpacity 
@@ -146,18 +64,16 @@ const ProductItem: React.FC<Props> = ({ product, onPress }) => {
           { transform: [{ scale: circleScale }] }
         ]} 
       />
-      <TouchableOpacity style={styles.heartButton} onPress={toggleFavorite}>
-        <Animated.View style={{ transform: [{ scale: scaleValue }] }}>
-          {isFavorite ? <HeartFilled /> : <HeartOutlined />}
-        </Animated.View>
-        {isFavorite && renderSparkles()}
-      </TouchableOpacity>
+      <AnimatedHeart
+        isFavorite={isFavorite}
+        onToggleFavorite={(newValue) => setIsFavorite(newValue)}
+      />
       <FastImage
         source={{ uri: product.small_image.url }}
         style={styles.image}
         resizeMode="contain"
       />
-      {product.price_range.minimum_price.discount?.percent_off ?
+      {discount ?
         <View style={styles.discountComponent}>
           <DiscountComponent percent={product.price_range.minimum_price.discount?.percent_off.toFixed(0)} />
         </View> : null}
@@ -172,18 +88,22 @@ const ProductItem: React.FC<Props> = ({ product, onPress }) => {
         <View style={styles.priceView}>
           <Text style={styles.currency}>{product.price.regularPrice.amount.currency}</Text>
           <Text style={styles.price}>
-            {product.price.regularPrice.amount.value.toFixed(2)}
+            {discount ? product.price_range.minimum_price.final_price.value.toFixed(2) : product.price_range.minimum_price.regular_price.value.toFixed(2)}
           </Text>
         </View>
+        {discount ?
+        <Text style={styles.discount}>
+        {product.price_range.minimum_price.regular_price.value.toFixed(2)}
+      </Text> : null
+        }
       </View>
-      <TouchableOpacity activeOpacity={1} style={styles.addToCartButton} onPress={toggleCart}>
-        <Animated.View style={{ transform: [{ scale: cartScaleValue }] }}>
-          {inCart ? <ShoppingCartFilled /> : <ShoppingCartOutlined />}
-        </Animated.View>
-      </TouchableOpacity>
+      <AnimatedCartButton
+        inCart={inCart}
+        onToggleCart={(newValue) => setInCart(newValue)}
+      />
       {isLoading && (
         <View style={styles.overlay}>
-          <ActivityIndicator size="large" color="#0000ff" />
+          <ActivityIndicator size="large" color="#b32546" />
         </View>
       )}
     </TouchableOpacity>
@@ -224,20 +144,6 @@ const styles = StyleSheet.create({
     color: '#888',
     fontFamily: Fonts.type.bold,
   },
-  heartButton: {
-    position: 'absolute',
-    borderRadius: 50,
-    zIndex: 10,
-    padding: 10,
-    right: 0
-  },
-  sparkle: {
-    position: 'absolute',
-    width: 5,
-    height: 5,
-    borderRadius: 5,
-    backgroundColor: '#FFD700', // Gold color for sparkles
-  },
   productDetailView: {
     paddingHorizontal: 8,
     paddingRight: 50,
@@ -260,19 +166,6 @@ const styles = StyleSheet.create({
     marginRight: moderateScale(2),
     color: '#888',
     fontFamily: Fonts.type.bold,
-  },
-  addToCartButton: {
-    borderRadius: 50,
-    borderWidth: 6,
-    borderColor: "#f4f4f6",
-    backgroundColor: "#fbe6e8",
-    height: verticalScale(50),
-    width: verticalScale(50),
-    position: 'absolute',
-    bottom: verticalScale(10),
-    right: moderateScale(-20),
-    justifyContent: 'center',
-    alignItems: 'center'
   },
   yalla: {
     flexDirection: 'row'
@@ -302,6 +195,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center', // Center vertically
     alignItems: 'center', // Center horizontally
   },
+  discount: {
+    fontFamily: Fonts.type.light,
+    fontSize: 12,
+    textDecorationLine: 'line-through'
+  }
 });
 
 export default ProductItem;

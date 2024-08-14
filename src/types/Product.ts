@@ -5,10 +5,22 @@ export interface ProductPrice {
   }
 }
 
+export interface Price {
+    currency: string;
+    value: number;
+}
+
+
+export interface Price {
+  currency: string;
+  value: number;
+}
+
+
 export interface PriceRange {
   minimum_price: {
-    final_price: ProductPrice;
-    regular_price: ProductPrice;
+    final_price: Price;
+    regular_price: Price;
     discount?: {
       amount_off: number;
       percent_off: number;

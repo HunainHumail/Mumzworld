@@ -2,7 +2,7 @@ import React from 'react';
 import Svg, { Path, Text } from 'react-native-svg';
 import Fonts from '../utils/Fonts';
 
-const DiscountComponent = ({ percent }: { percent: string }) => (
+const DiscountComponent = ({ percent }: { percent: any }) => (
   <Svg
     id="Layer_2"
     data-name="Layer 2"
