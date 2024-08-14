@@ -71,7 +71,7 @@ const ProductDetailsScreen: React.FC<Props> = ({ route }) => {
             <TouchableOpacity onPress={() => NavigationService.goBack()}>
               <BackIcon style={[styles.backIcon, isArabic && styles.flipIcon]} />
             </TouchableOpacity>
-            <Button title={`Switch to ${isArabic ? 'English' : 'Arabic'}`} onPress={toggleLanguage} />
+            <Button color={'#b32546'} title={`Switch to ${isArabic ? 'English' : 'Arabic'}`} onPress={toggleLanguage} />
           </View>
           <View style={styles.productImageView}>
             <ProductCarousel mediaGallery={currentProductDetails.media_gallery} />
@@ -83,6 +83,9 @@ const ProductDetailsScreen: React.FC<Props> = ({ route }) => {
               </View>
               <Text style={[styles.regularPrice, isArabic && styles.rtlText]}>{currentProductDetails.price?.regularPrice.amount.currency} {currentProductDetails.price?.regularPrice.amount.value}</Text>
             </View>
+          </View>
+          <View style={styles.featureView}>
+
           </View>
           <View style={styles.htmlView}>
             <RenderHTML
@@ -165,6 +168,9 @@ const styles = StyleSheet.create({
   htmlView: {
     paddingVertical: verticalScale(10),
     paddingHorizontal: moderateScale(16)
+  },
+  featureView: {
+    
   }
 });
 
