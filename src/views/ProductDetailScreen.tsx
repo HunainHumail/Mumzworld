@@ -22,7 +22,7 @@ const ProductDetailsScreen: React.FC<Props> = ({ route }) => {
   const [isArabic, setIsArabic] = useState(false);
   const productDetails: ReadonlyArray<ProductDetails> = route.params;
   const [isFavorite, setIsFavorite] = useState(false);
-  const [quantity, setQuantity] = useState(1); // Quantity state
+  const [quantity, setQuantity] = useState(1);
   const animationValue = useRef(new Animated.Value(1)).current;
   const currentProductDetails = isArabic ? productDetails[0] : productDetails[1];
 
@@ -105,7 +105,7 @@ const ProductDetailsScreen: React.FC<Props> = ({ route }) => {
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
           <View style={[styles.header, isArabic && styles.rtlHeader]}>
             <TouchableOpacity onPress={() => NavigationService.goBack()}>
-              <BackIcon style={[styles.backIcon, isArabic && styles.flipIcon]} />
+              <BackIcon style={[isArabic && styles.flipIcon]} />
             </TouchableOpacity>
             <Button color={'#b32546'} title={`Switch to ${isArabic ? 'English' : 'Arabic'}`} onPress={toggleLanguage} />
           </View>
@@ -201,9 +201,6 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.type.light,
     fontSize: 12,
     textDecorationLine: 'line-through'
-  },
-  backIcon: {
-    // Additional styles for the back icon if needed
   },
   flipIcon: {
     transform: [{ scaleX: -1 }],

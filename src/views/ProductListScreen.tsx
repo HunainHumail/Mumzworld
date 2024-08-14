@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import useProductListViewModel from '../viewmodels/ProductListViewModal';
 import ProductList from '../components/ProductList';
 import { ProductListScreenNavigationProp } from '../navigation';
@@ -13,9 +13,13 @@ const ProductListScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <View>
-      {loading ? <ActivityIndicator /> : <ProductList products={products} />}
+      {loading ? <ActivityIndicator color={"#b32546"} style={styles.activityIndicatorStyle} /> : <ProductList products={products} />}
     </View>
   );
 };
 
 export default ProductListScreen;
+
+const styles = StyleSheet.create({
+  activityIndicatorStyle: {height: '100%', justifyContent: 'center', alignItems: 'center'}
+})

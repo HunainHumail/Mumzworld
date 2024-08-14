@@ -29,10 +29,8 @@ function* handleFetchProductDetails(
   action: ReturnType<typeof fetchProductDetailsRequest>
 ): Generator<CallEffect<FetchProductDetailsResponse> | PutEffect<any>, void, FetchProductDetailsResponse> {
   try {
-    console.log('HERE NOW: ')
     const productDetails: FetchProductDetailsResponse = yield call(fetchProductDetails, action.payload) as FetchProductDetailsResponse;
     yield put(fetchProductDetailsSuccess(productDetails));
-    console.log('PRODUCT DETAILS HERE: ', productDetails)
     NavigationService.navigate('ProductDetails', productDetails)
   } catch (error: any) {
     yield put(fetchProductDetailsFailure({ id: action.payload, error: error.message }));

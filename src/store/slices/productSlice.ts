@@ -26,15 +26,15 @@ const productSlice = createSlice({
       state.loading = true;
     },
     fetchProductDetailsRequest(state, action: PayloadAction<number>) {
-      state.productLoading[action.payload] = true; // Set loading for the specific product ID
+      state.productLoading[action.payload] = true;
     },
     fetchProductDetailsSuccess(state, action: PayloadAction<Product>) {
       state.selectedProduct = action.payload;
-      state.productLoading[action.payload[0].id] = false; // Clear loading for the specific product ID
+      state.productLoading[action.payload[0].id] = false;
     },
     fetchProductDetailsFailure(state, action: PayloadAction<{ id: number; error: string }>) {
       state.error = action.payload.error;
-      state.productLoading[action.payload.id] = false; // Clear loading for the specific product ID
+      state.productLoading[action.payload.id] = false;
     },
   },
 });

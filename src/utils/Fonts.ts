@@ -1,6 +1,3 @@
-import { PixelRatio } from 'react-native';
-// import Metrics from './Metrics';
-
 const type = {
   regular: 'NotoSans-Regular',
   black: 'NotoSans-Black',

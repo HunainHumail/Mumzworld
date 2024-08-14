@@ -29,12 +29,10 @@ const AppNavigator: React.FC = () => {
           component={ProductListScreen} 
           options={{
             headerStyle: {
-              backgroundColor: '#fef1f1', // Set the background color of the header
+              backgroundColor: '#fef1f1',
             },
             headerTitle: () => (
-              // <Text style={{ color: '#333333', fontSize: 18 }}>Products</Text>
               <Logo width={190} height={40}/>
-
             ),
           }}
         />

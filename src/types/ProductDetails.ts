@@ -1,5 +1,3 @@
-// ProductDetails.ts
-
 export interface Money {
   currency: string;
   value: number;
@@ -120,7 +118,7 @@ export interface ProductDetails {
   recom_age: string;
   review_count: number;
   reviews: {
-      items: any[]; // Define further if review structure is known
+      items: any[];
       page_info: {
           page_size: number;
           total_pages: number;
@@ -136,10 +134,9 @@ export interface ProductDetails {
   url_key: string;
   weight: number;
   __typename: string;
-  options: any | null; // Define further if options structure is known
+  options: any | null;
 }
 
-// Interface for the response structure
 export interface ProductsResponse {
   data: {
       product: ProductDetails[]
